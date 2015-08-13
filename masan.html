@@ -1,0 +1,189 @@
+<html !DOCTYPE>
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=utf-8"/>
+		<meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<meta content="telephone=no" name="format-detection"/>
+		<title>消息中心</title>
+		<style>    
+			html{
+				font-size:62.5%;
+			}
+			body{background-color:#f0f0f0;color: #777;font-family: 黑体 微软雅黑;font-size: 1.4rem;-webkit-appearance:none;-webkit-tap-highlight-color:rgba(0,0,0,0);}
+			ul li{list-style: none}
+			*{margin:0;padding: 0;}
+			img{border: none;}
+			.pageBody{
+				width: 100%;
+			}
+			.msg-item{
+				width: 85%;
+				margin: 15px auto auto auto;
+				border-radius: 5px;
+				background: #fff;
+				min-height: 100px;
+				border: 1px solid #e6e6e6;
+				padding: 10px;
+				padding-bottom: 0px;
+			}
+			.msg-item:last-child{
+				margin-bottom: 15px;
+			}
+			.hidden{
+				display: none;
+			}
+			.msg-item>div{
+				width:100%;
+			}
+			.msg-title{
+				color: #333;
+				margin-top: 5px;
+				font-size: 1.8rem;
+			}
+			.msg-date{
+				color: #999;
+				margin: 10px auto 12px auto;
+				font-size: 1.2rem;
+				font-weight: lighter;
+				font-family: Helvetica Neue;
+			}
+			.msg-img img{
+				width: 100%;
+			}
+			.error-img{
+				background: #F5F5F5;
+				text-align: center;
+				line-height: 70px;
+				height: 70px;
+				padding-top: 40px;
+			}
+			.error-img img{
+				width: 100px;
+			}
+			.msg-content{
+				font-size: 1.4rem;
+				margin:10px auto;
+				color: #666;
+				font-weight: lighter;
+				word-wrap: break-word;
+				word-break: normal;
+			}
+			.msg-detail-link{
+				font-size: 1.4rem;
+				color:#999;
+				border-top: 1px solid #f0f0f0;
+				line-height: 40px;
+			}
+			.msg-detail-link ul{
+				margin:0;
+				padding: 0;
+				width: 100%;
+			}
+			.msg-detail-link ul li{
+				display: inline-block;
+			}
+			.msg-detail-link .detail{
+				width: 80%;
+				text-align: left;
+			}
+			.msg-detail-link .arrow{
+				text-align: right;
+				width: 18%;
+				height: 20px;
+				line-height: 20px;
+				vertical-align: top;
+				padding-top: 12px;
+			}
+			.dropload-box{
+				font-size: 1.4rem;
+			    position: relative;
+			    height: 0;
+			    overflow: hidden;
+			    background-color: #f0f0f0;
+			    -webkit-transform:translate3d(0,0,0);
+			    transform:translate3d(0,0,0);
+			}
+			.dropload-refresh,.dropload-update,.dropload-load{
+			    position: absolute;
+			    margin-top: 10px;
+			    left: 50%;
+			    bottom: 0;
+			    height: 50px;
+			    line-height: 65px;
+			    color: #999;
+			    -webkit-transform:translate(-50%,0);
+			    transform:translate(-50%,0);
+			}
+			.dropload-refresh_down,.dropload-update_down,.dropload-load_down{
+			    position: absolute;
+			    left: 50%;
+			    top: 0;
+			    height: 40px;
+			    line-height: 40px;
+			    color: #999;
+			    -webkit-transform:translate(-50%,0);
+			    transform:translate(-50%,0);
+			}
+			.dropload-refresh img,.dropload-update img,.dropload-load img{width:22px;height: 22px;}
+			.dropload-refresh span,.dropload-update span,.dropload-load span{display: inline-block;vertical-align: middle;}
+			.dropload-refresh span:last-child,.dropload-update span:last-child,.dropload-load span:last-child{margin-left: 5px;font-size: 1.4rem;padding-top: 2px;}
+			.nomsg{
+				width: 100%;
+				text-align: center;
+				margin-top: 50px;
+			}
+			.tips{
+				width: 100%;
+				position: fixed;
+				top: 0px;
+				z-index: 10;
+				background: rgba(226,149,34,0.5);
+				color: #FFF;
+				font-size: 12px;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
+			}
+			.loadmore{
+				width: 100%;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				margin-bottom: 15px;
+				font-size: 1.0rem;
+				color: #ff8903;
+			}
+			.errmsg{
+				width: 100%;
+				margin-top: 100px;
+				font-size: 1.4rem;
+			}
+			.errmsg li{
+				width: 100%;
+				text-align: center;
+			}
+			.errmsg img{
+				width: 55px;
+				height: 55px;
+			}
+			.errmsg li:last-child{
+				margin-top: 20px;
+				font-size: 1.4rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="pageBody">
+			<div class="listmsgs"></div>
+		</div>
+		<div class="loadmore hidden">点击加载更多</div>
+		<img src="http://static.xiaojukeji.com/webapp/images/loading_2.gif" width="0" height="0"/>
+		<script src="zepto.min.js"></script>
+		<script src="http://static.diditaxi.com.cn/activity/lib/dd.base.js"></script>
+		<script src="http://static.diditaxi.com.cn/activity/lib/dd.dialog.js"></script>
+		<script type="text/javascript" src="http://static.diditaxi.com.cn/webapp/js/merged-base-login.js"></script>
+		<script src="p-pasger-msgcenter.js?v=10.0"></script>
+	</body>
+</html>
